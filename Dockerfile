@@ -1,7 +1,14 @@
-FROM alpine:3.16
+
+FROM node:10-alpine
 
 WORKDIR /app
+ENV NODE_ENV=production
+COPY package.json ./
 
-COPY package.json /app
+RUN npm install
 
-RUN "npm install"
+COPY . .
+
+EXPOSE 8080
+
+CMD [ "npm", "start" ]

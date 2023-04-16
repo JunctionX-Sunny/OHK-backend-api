@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 
 import { logger } from "./utils/logger.js";
+import Router from "./routers/index.js";
+import connectDB from "./configs/database.js";
 
 if (process.env.NODE_ENV === "development") {
   dotenv.config({ path: ".env" });
@@ -16,6 +18,8 @@ const HOST = process.env.HOST | "localhost";
 
 const app = express();
 
+Router(app);
+
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
@@ -27,6 +31,12 @@ app.get("/", (req, res, next) => {
   });
 });
 
-app.listen(PORT, HOST, () => {
-  logger.info(`Connecting server on port ${PORT}!`);
+app.listen(PORT, HOST, async () => {
+  try {
+    connectDB(process.env.MONGODB_URI);
+    logger.info(`Connecting database successfully!`);
+    logger.info(`Connecting server on port ${PORT}!`);
+  } catch (error) {
+    process.exit(1);
+  }
 });

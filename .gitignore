@@ -7,3 +7,5 @@ package-lock.json
 logs/*
 
 config/config.json
+
+rds-combined-ca-bundle.pem

@@ -1,6 +1,6 @@
-module.exports = class BaseError extends Error {
+export default class BaseError extends Error {
   constructor(message, statusCode) {
     super(message);
     this.statusCode = statusCode;
   }
-};
+}
